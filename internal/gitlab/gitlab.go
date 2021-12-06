@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"net/url"
 	"os"
 	"strconv"
 	"time"
@@ -69,7 +70,7 @@ func getProjectsCount(id, startpage, count int) (int, error) {
 		}
 		return count, nil
 	}
-	return 0, errors.New(fmt.Sprintf("%d", resp.StatusCode))
+	return 0, fmt.Errorf(fmt.Sprintf("%d", resp.StatusCode))
 }
 
 func getUserDetails(id int) (*User, error) {
@@ -93,11 +94,11 @@ func getUserDetails(id int) (*User, error) {
 
 		return &user, nil
 	}
-	return nil, errors.New(fmt.Sprintf("%d", resp.StatusCode))
+	return nil, fmt.Errorf(fmt.Sprintf("%d", resp.StatusCode))
 }
 
 func getWrapStats(userName string) (*WrapStats, error) {
-	resp, err := http.Get(fmt.Sprintf("https://gitlab.com/api/v4/users?username=%s", userName))
+	resp, err := http.Get(fmt.Sprintf("https://gitlab.com/api/v4/users?username=%s", url.QueryEscape(userName)))
 	if err != nil {
 		log.Fatal(err)
 	}

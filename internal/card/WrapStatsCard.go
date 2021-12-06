@@ -24,11 +24,11 @@ var font []byte
 var notFound []byte
 
 func CreateUserNotFound(username string) (*string, error) {
-	err := os.WriteFile(fmt.Sprintf("%s/404.png", os.TempDir()), notFound, 0644)
+	err := os.WriteFile(fmt.Sprintf("%s/notFound.png", os.TempDir()), notFound, 0644)
 	if err != nil {
 		return nil, err
 	}
-	bgImage, err := gg.LoadImage(fmt.Sprintf("%s/404.png", os.TempDir()))
+	bgImage, err := gg.LoadImage(fmt.Sprintf("%s/notFound.png", os.TempDir()))
 	if err != nil {
 		return nil, err
 	}
@@ -44,6 +44,9 @@ func CreateUserNotFound(username string) (*string, error) {
 	printText(dc, fmt.Sprintf("Hooman, %s is not found!", username), 200, 70.0, true)
 	outPutFileName := fmt.Sprintf("%s/%s.png", os.TempDir(), username)
 	err = gg.SavePNG(outPutFileName, dc.Image())
+	if err != nil {
+		return nil, err
+	}
 	return &outPutFileName, nil
 }
 
@@ -96,11 +99,14 @@ func CreateGitLabWrapCard(userCard *gitlab.WrapStats) (*string, error) {
 
 	outPutFileName := fmt.Sprintf("%s/%d.png", os.TempDir(), userCard.User.ID)
 	err = gg.SavePNG(outPutFileName, dc.Image())
+	if err != nil {
+		return nil, err
+	}
 	return &outPutFileName, nil
 }
 
 func printText(dc *gg.Context, txt string, x, y float64, isWhite bool) {
-	if isWhite == true {
+	if isWhite {
 		dc.SetRGB(1, 1, 1)
 		dc.DrawStringWrapped(txt, x, y, 0.5, 0.5, 300, 1.5, gg.AlignLeft)
 	} else {
@@ -111,10 +117,7 @@ func printText(dc *gg.Context, txt string, x, y float64, isWhite bool) {
 }
 
 func downloadAvatar(URL, fileName string) error {
-	url := fmt.Sprintf("%s", URL)
-	if strings.Contains(url, "s=80") {
-		url = strings.Replace(url, "s=80", "s=200", -1)
-	}
+	url := strings.Replace(URL, "s=80", "s=200", -1)
 	response, err := http.Get(url)
 	if err != nil {
 		return err
