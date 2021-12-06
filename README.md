@@ -41,5 +41,8 @@ environment variable `PORT` to change the port.
 
 # Caveats
 
-The calls from the UI to the backend server are not configurable, so you need to change the
-string `https://gitlabwrap.fly.dev/card/` by hand in the UI.
+1. The calls from the UI to the backend server are not configurable, so you need to change the
+   string `https://gitlabwrap.fly.dev/card/` in the *.vue filess 😅
+
+2. The URL for the GitLab API is not configurable, so you need to change the string `https://gitlab.com/api/v4/` in the
+   `internal/gitlab/gitlab.go` file by hand. 😅
