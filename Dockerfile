@@ -4,7 +4,7 @@ WORKDIR /ui
 RUN npm ci
 RUN npm run build
 
-FROM golang:1.17-alpine3.15 as builder
+FROM golang:1.18-alpine3.15 as builder
 WORKDIR /app/
 COPY . .
 RUN go mod tidy
