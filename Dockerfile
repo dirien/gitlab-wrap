@@ -11,7 +11,7 @@ RUN go mod tidy
 RUN go build -o wrapit main.go
 
 
-FROM alpine:3.15.2
+FROM alpine:3.15.3
 ENV GITLAB_TOKEN=xxx
 COPY --from=builder /app/wrapit /app/wrapit
 COPY --from=ui-builder /ui/dist /app/dist
