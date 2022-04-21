@@ -1,4 +1,4 @@
-FROM node:17 as ui-builder
+FROM node:18 as ui-builder
 COPY . .
 WORKDIR /ui
 RUN npm ci
